@@ -1,0 +1,187 @@
+body {
+  background-color: #f4f6f9;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+}
+
+.homePage-header {
+  margin-top: 4rem;
+}
+
+.homePage-toolbar {
+  padding: 1rem;
+}
+
+.homePage-title {
+  text-align: center;
+  color: #333;
+  font-weight: 800;
+  font-size: 2.3rem;
+}
+
+.IonPage {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.assetAmounth p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.IonTitle {
+  font-size: 2.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.IonCard {
+  margin-bottom: 1.25rem;
+  border-radius: 0.625rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.IonCardHeader {
+  background-color: #f8f9fa;
+  border-radius: 0.625rem 0.625rem 0 0;
+}
+
+.IonCardTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #22426b;
+}
+
+.asset-table {
+  width: 100%;
+  margin-top: 1.25rem;
+  border-collapse: collapse;
+}
+
+.asset-table th, .asset-table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.asset-table th {
+  background-color: #2a4b6d;
+  color: white;
+}
+
+.asset-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.asset-table tr:hover {
+  background-color: #e9ecef;
+}
+
+.asset-table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.custom-card {
+  border-radius: 0.625rem;
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.25rem;
+}
+
+.custom-searchbar {
+  margin-bottom: 1.25rem;
+  border-radius: 3.125rem;
+  transition: all 0.3s ease;
+}
+
+.custom-searchbar .searchbar-input {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 0.625rem;
+  padding-right: 2.5rem;
+  font-size: 1rem;
+}
+
+.custom-searchbar .searchbar-input:focus {
+  border: 0.125rem solid #4a90e2;
+  box-shadow: 0 0 0.5rem rgba(72, 121, 255, 0.5);
+}
+
+.custom-searchbar .searchbar-icon {
+  color: #4a90e2;
+  font-size: 1.25rem;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+.IonButton {
+  margin-bottom: 0.625rem;
+  font-weight: 600;
+  background-color: #007bff;
+  color: black;
+}
+
+.IonButton:hover {
+  background-color: #0056b3;
+}
+
+.searchbar-icon {
+  font-size: 1.5rem;
+  color: #4a90e2;
+}
+
+.searchbar-clear-button {
+  display: none !important;
+}
+
+.searchbar-input {
+  padding-right: 2.1875rem;
+}
+
+.asset-table th, .asset-table td {
+  text-align: left;
+  padding: 0.75rem;
+}
+
+.asset-table th {
+  background-color: #22426b;
+  font-weight: bold;
+}
+
+.asset-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.asset-table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.asset-table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.warrantyAssets p {
+  span {
+    font-weight: 600;
+    color: red;
+    animation: blink 1s infinite;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

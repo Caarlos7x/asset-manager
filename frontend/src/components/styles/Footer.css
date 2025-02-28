@@ -1,0 +1,75 @@
+/* Footer.css */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+  position: relative;
+  bottom: 0;
+  width: auto;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+}
+
+.footer-left .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer-left .logo:hover {
+  text-decoration: underline;
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.footer-right .social-icon {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-left: 20px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-right .social-icon:hover {
+  color: #00aced; /* Cor de destaque para o hover */
+}
+
+.footer-right .social-icon:nth-child(2) {
+  color: #1da1f2; /* Cor específica para o ícone do Twitter */
+}
+
+.footer-right .social-icon:nth-child(3) {
+  color: #c13584; /* Cor específica para o ícone do Instagram */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-left {
+    margin-bottom: 20px;
+  }
+
+  .footer-right {
+    margin-top: 10px;
+  }
+
+  .footer-right .social-icon {
+    margin-left: 10px;
+  }
+}
