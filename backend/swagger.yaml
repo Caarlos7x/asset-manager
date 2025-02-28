@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Pet Registry API
+  description: API para registrar, visualizar, atualizar e excluir animais de estimação
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api
+paths:
+  /pets:
+    get:
+      summary: Retorna todos os pets
+      responses:
+        "200":
+          description: Lista de pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    name:
+                      type: string
+                    species:
+                      type: string
+                    age:
+                      type: integer
+                    owner:
+                      type: string
+    post:
+      summary: Cria um novo pet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                species:
+                  type: string
+                age:
+                  type: integer
+                owner:
+                  type: string
+      responses:
+        "201":
+          description: Pet criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  species:
+                    type: string
+                  age:
+                    type: integer
+                  owner:
+                    type: string
+  /pets/{id}:
+    get:
+      summary: Retorna um pet específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do pet
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pet encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  species:
+                    type: string
+                  age:
+                    type: integer
+                  owner:
+                    type: string
+        "404":
+          description: Pet não encontrado
+    put:
+      summary: Atualiza um pet específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do pet
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                species:
+                  type: string
+                age:
+                  type: integer
+                owner:
+                  type: string
+      responses:
+        "200":
+          description: Pet atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  species:
+                    type: string
+                  age:
+                    type: integer
+                  owner:
+                    type: string
+        "404":
+          description: Pet não encontrado
+    delete:
+      summary: Exclui um pet específico pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do pet
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pet excluído com sucesso
+        "404":
+          description: Pet não encontrado
