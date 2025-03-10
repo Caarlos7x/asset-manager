@@ -6,6 +6,7 @@ import {
   updateAssetById, 
   deleteAssetById 
 } from '../controllers/assetController.js';
+import { authenticateJWT } from '../middlewares/authenticateJWT.js';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.post('/', createAssets);
 router.get('/', getAllAssets);
 router.get('/:id', getAssetById);
-router.put('/:id', updateAssetById);
-router.delete('/:id', deleteAssetById);
+router.put('/:id', authenticateJWT, updateAssetById);
+router.delete('/:id', authenticateJWT, deleteAssetById);
 
 export default router;

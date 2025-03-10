@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
-import assetRoutes  from './routes/assetRoutes.js';
+import assetRoutes from './routes/assetRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
@@ -11,19 +12,19 @@ import YAML from 'yamljs';
 const swaggerDocument = YAML.load('./swagger.yaml');
 
 dotenv.config();
-console.log("🔍 MONGO_URI:", process.env.MONGO_URI);  // Verifique se está carregando corretamente
+console.log("🔍 MONGO_URI:", process.env.MONGO_URI);
 
-connectDB();  // Conexão com o MongoDB
+connectDB();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-// Configurar o Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/assets', assetRoutes);
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
   res.send('API Up and Running 🚀');

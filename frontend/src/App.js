@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AssetForm from './components/AssetForm';
-import PetEditPage from "./pages/AssetEditPage";
 import Home from './pages/Home';
+import AssetList from './components/AssetList';  // Página de lista de ativos
+import AssetListPage from './pages/AssetEditPage';  // Página de edição de ativo
 import api from './components/api/api';
 import './components/styles/App.css';
 import Footer from './components/Footer';
 import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';  // Página de login
 
 function App() {
   const [assets, setAssets] = useState([]);
@@ -25,7 +27,6 @@ function App() {
     }
   };
 
-  // Adicionar novo ativo e atualizar lista
   const addAsset = async (newAsset) => {
     try {
       const res = await api.post('/assets', newAsset);
@@ -35,7 +36,6 @@ function App() {
     }
   };
 
-  // Remover ativo da lista
   const removeAsset = async (id) => {
     try {
       await api.delete(`/assets/${id}`);
@@ -62,9 +62,9 @@ function App() {
         <Routes>
           <Route path="/home" element={<Home pets={assets} onRemovePet={removeAsset} />} />
           <Route path="/registrar" element={<AssetForm onAddAsset={addAsset} />} />
-          <Route path="/editar/:id" element={<PetEditPage />} />
-          
-          {/* Debugging log: Verificando se a rota está sendo chamada */}
+          <Route path="/editar/:id" element={<AssetListPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/assets" element={<AssetList />} /> {/* Nova rota para listar os ativos */}
           <Route 
             path="/dashboard" 
             element={

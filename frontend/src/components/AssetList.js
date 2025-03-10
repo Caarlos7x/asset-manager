@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/buttons/Button';
 import InputField from '../components/InputField';
 import api from "../components/api/api";
 import './styles/AssetList.css';
+
+const getToken = () => localStorage.getItem('token');
 
 const AssetList = () => {
   const [assets, setAssets] = useState([]);
@@ -12,36 +15,30 @@ const AssetList = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [osFilter, setOsFilter] = useState('');
 
-  // Buscar todos os ativos ao carregar a página
+  const navigate = useNavigate();
+
   useEffect(() => {
+    const token = getToken();
+    
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const fetchAssets = async () => {
       try {
-        const res = await api.get("/assets");
+        const config = {
+          headers: { Authorization: `Bearer ${token}` },
+        };
+        const res = await api.get("/assets", config);
         setAssets(res.data);
       } catch (err) {
         console.error("Erro ao buscar ativos:", err);
       }
     };
-    fetchAssets();
-  }, []);
 
-  // Filtrar os ativos com base na busca por tag ou ID
-  const filteredAssets = assets
-    .filter((asset) =>
-      asset.hostname.toLowerCase().includes(search.toLowerCase()) ||
-      asset.tag.toLowerCase().includes(search.toLowerCase()) ||
-      asset.lastUserLogon.toLowerCase().includes(search.toLowerCase()) ||
-      asset._id.includes(search) ||
-      (osFilter && asset.os.toLowerCase() === osFilter.toLowerCase())
-    )
-    .sort((a, b) => {
-      // Ordena com base no sistema operacional (caso deseje ordenar por outro campo, basta trocar)
-      if (sortOrder === 'asc') {
-        return a.hostname.localeCompare(b.hostname);
-      } else {
-        return b.hostname.localeCompare(a.hostname);
-      }
-    });
+    fetchAssets();
+  }, [navigate]);
 
   const handleEdit = (asset) => {
     setIsModalOpen(true);
@@ -50,35 +47,71 @@ const AssetList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/assets/${id}`);
-      setAssets(assets.filter((asset) => asset._id !== id));
+      const token = getToken();
+      if (!token) {
+        alert("Você precisa estar autenticado para excluir um ativo.");
+        return;
+      }
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      await api.delete(`/assets/${id}`, config);
+      setAssets((prevAssets) => prevAssets.filter((asset) => asset._id !== id));
       alert("Ativo excluído com sucesso!");
     } catch (err) {
       console.error("Erro ao excluir o ativo:", err);
     }
   };
 
+  // Filtro e ordenação dos ativos
+  const filteredAssets = assets
+    .filter(asset => 
+      (asset.hostname.toLowerCase().includes(search.toLowerCase()) || 
+      asset.tag.toLowerCase().includes(search.toLowerCase())) &&
+      (osFilter === '' || asset.os === osFilter)
+    )
+    .sort((a, b) => {
+      if (sortOrder === 'asc') return a.hostname.localeCompare(b.hostname);
+      return b.hostname.localeCompare(a.hostname);
+    });
+
+  const handleModalChange = (e) => {
+    const { name, value } = e.target;
+    setAssetToEdit((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleModalSubmit = async (e) => {
     e.preventDefault();
-    if (!assetToEdit._id) return alert("Ativo inválido!");
     try {
-      await api.put(`/assets/${assetToEdit._id}`, assetToEdit);
-      alert("Ativo atualizado com sucesso!");
+      const token = getToken();
+      if (!token) {
+        alert("Você precisa estar autenticado para editar um ativo.");
+        return;
+      }
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      await api.put(`/assets/${assetToEdit._id}`, assetToEdit, config);
+      setAssets((prevAssets) =>
+        prevAssets.map((asset) => (asset._id === assetToEdit._id ? assetToEdit : asset))
+      );
       setIsModalOpen(false);
-      setAssets(assets.map((asset) => (asset._id === assetToEdit._id ? assetToEdit : asset)));
+      alert("Ativo atualizado com sucesso!");
     } catch (err) {
-      console.error("Erro ao atualizar o ativo:", err);
+      console.error("Erro ao editar o ativo:", err);
     }
   };
 
-  const handleModalChange = (e) => {
-    setAssetToEdit((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setAssetToEdit({});
   };
 
-  const closeModal = () => setIsModalOpen(false);
+  const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
   return (
     <div className="asset-list">
@@ -162,8 +195,5 @@ const AssetList = () => {
     </div>
   );
 };
-
-// Função auxiliar para capitalizar as palavras
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).replace(/([A-Z])/g, ' $1');
 
 export default AssetList;

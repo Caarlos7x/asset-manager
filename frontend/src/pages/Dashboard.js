@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [recentAssets, setRecentAssets] = useState([]);
 
   useEffect(() => {
-    fetchAssets();
+    fetchAssets(); // Agora a função é chamada sem necessidade de autenticação
   }, []);
 
   const fetchAssets = async () => {
